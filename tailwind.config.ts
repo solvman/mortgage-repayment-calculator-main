@@ -30,6 +30,9 @@ const config: Config = {
         400: "32px",
         500: "40px",
       },
+      borderRadius: {
+        sm: "4px",
+      },
     },
   },
   plugins: [],
