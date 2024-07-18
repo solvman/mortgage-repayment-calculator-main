@@ -21,6 +21,7 @@ const config: Config = {
           700: "hsl(200, 24%, 40%)",
           900: "hsl(202, 55%, 16%)",
         },
+        divider: "rgba(154, 190, 213, 0.25)",
       },
       spacing: {
         100: "8px",

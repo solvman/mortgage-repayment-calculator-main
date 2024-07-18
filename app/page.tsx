@@ -62,7 +62,7 @@ export default function Home() {
           </form>
         </section>
         {/* Results */}
-        <section className="p-300">
+        <section className="p-300 bg-secondary-900 text-center">
           {/* Empty Results */}
           <Image
             src="/images/illustration-empty.svg"
@@ -70,25 +70,34 @@ export default function Home() {
             width={192}
             height={192}
             priority={true}
+            className="mx-auto"
           />
-          <h2>Results shown here</h2>
-          <p>
+          <h2 className="text-preset-2 font-bold text-white">
+            Results shown here
+          </h2>
+          <p className="text-preset-4 text-secondary-300">
             Complete the form and click “calculate repayments” to see what your
             monthly repayments would be.
           </p>
           {/* Results */}
-          <h2>Your results</h2>
-          <p>
+          <h2 className="text-preset-2 font-bold text-white mb-200">
+            Your results
+          </h2>
+          <p className="text-preset-4 text-secondary-300 mb-300">
             Your results are shown below based on the information you provided.
             To adjust the results, edit the form and click “calculate
             repayments” again.
           </p>
-          <div>
-            <p>Your monthly repayments</p>
-            <p>$1234</p>
-            {/* Divider */}
-            <p>Total you&apos;ll repay over the term</p>
-            <p>$123456</p>
+          <div className="p-300 bg-black/25 text-left border-t-4 border-primary rounded-lg">
+            <p className="text-preset-4 text-secondary-300">
+              Your monthly repayments
+            </p>
+            <p className="text-preset-1 text-primary font-bold">$1234</p>
+            <hr className="h-px bg-divider border-0 my-200" />
+            <p className="text-preset-4 text-secondary-300">
+              Total you&apos;ll repay over the term
+            </p>
+            <p className="text-preset-2 text-white font-bold mt-2">$123456</p>
           </div>
         </section>
       </article>
