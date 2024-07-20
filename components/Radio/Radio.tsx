@@ -1,11 +1,15 @@
-import { useId } from "react";
+import { forwardRef, InputHTMLAttributes, Ref, useId } from "react";
 
-type RadioProps = {
+interface RadioProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
   name: string;
   label: string;
-};
+}
 
-function Radio({ name, label }: RadioProps) {
+const Radio = forwardRef(function Radio(
+  { name, label, ...rest }: RadioProps,
+  ref: Ref<HTMLInputElement>
+) {
   const id = useId();
 
   return (
@@ -15,9 +19,12 @@ function Radio({ name, label }: RadioProps) {
         id={`${id}-interest`}
         name={name}
         className="w-4 h-4 form-radio checked:bg-primary text-primary focus:ring-1 focus:ring-primary"
+        ref={ref}
+        {...rest}
       />
       <span className="text-preset-3 font-bold">{label}</span>
     </label>
   );
-}
+});
+
 export default Radio;

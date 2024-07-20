@@ -1,5 +1,5 @@
 import { cn } from "@/utils";
-import { InputHTMLAttributes, useId } from "react";
+import { forwardRef, InputHTMLAttributes, Ref, useId } from "react";
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
@@ -9,13 +9,16 @@ interface InputProps
   error?: string;
 }
 
-function Input({
-  decoratorLabel,
-  decoratorPosition = "left",
-  label,
-  error,
-  ...rest
-}: InputProps) {
+const Input = forwardRef(function Input(
+  {
+    decoratorLabel,
+    decoratorPosition = "left",
+    label,
+    error,
+    ...rest
+  }: InputProps,
+  ref: Ref<HTMLInputElement>
+) {
   const id = useId();
 
   return (
@@ -48,6 +51,7 @@ function Input({
             type="number"
             id={id}
             className="w-full h-12 text-preset-3 font-bold text-secondary-900 px-200 border-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            ref={ref}
             {...rest}
           />
         </div>
@@ -59,5 +63,6 @@ function Input({
       </div>
     </label>
   );
-}
+});
+
 export default Input;
