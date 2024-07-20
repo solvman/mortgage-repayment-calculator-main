@@ -51,8 +51,6 @@ Users should be able to:
 
 I learned how to work with controlled components in React, including how to use the Controller from react-hook-form to manage form state and validation. Specifically, I figured out how to set up validation rules, like required fields and maximum length, and display custom error messages. I also learned to handle value changes with custom formatting functions, such as converting input to currency format, while maintaining proper references and error handling within the input component.
 
-To see how you can add code snippets, see below:
-
 ```typescript
 <Controller
   name="amount"
@@ -74,10 +72,6 @@ To see how you can add code snippets, see below:
   )}
 />
 ```
-
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
-
-**Note: Delete this note and the content within this section and replace with your own learnings.**
 
 ### Continued development
 
