@@ -10,7 +10,7 @@ import RadioGroup from "@/components/RadioGroup";
 import Results from "@/components/Results";
 import Section from "@/components/Section";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import {
   calculateRepayments,
@@ -37,7 +37,8 @@ export default function Home() {
     reset,
     handleSubmit,
     control,
-    formState: { errors },
+    setFocus,
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
       amount: "",
@@ -46,6 +47,11 @@ export default function Home() {
       repayment: "repayment",
     },
   });
+
+  useEffect(() => {
+    setFocus("amount");
+    console.log("Focus set to amount input");
+  }, [setFocus]);
 
   function onSubmit(data: FormData) {
     const { amount, term, interestRate, repayment } = data;
@@ -88,9 +94,13 @@ export default function Home() {
             <Controller
               name="amount"
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              rules={{
+                required: ERROR_REQUIRED,
+                maxLength: { value: 11, message: "Maximum 9 digits allowed" },
+              }}
+              render={({ field: { value, onChange, ref } }) => (
                 <Input
+                  ref={ref}
                   decoratorLabel="$"
                   label="Mortgage Amount"
                   type="text"
@@ -98,7 +108,7 @@ export default function Home() {
                   onChange={(event) =>
                     onChange(formatToCurrency(event.target.value))
                   }
-                  error={errors.amount && ERROR_REQUIRED}
+                  error={errors.amount?.message}
                 />
               )}
             />
@@ -108,10 +118,14 @@ export default function Home() {
                 decoratorPosition="right"
                 label="Mortgage Term"
                 type="number"
+                min={1}
+                max={100}
                 {...register("term", {
-                  required: true,
+                  required: ERROR_REQUIRED,
+                  min: { value: 1, message: "Minimum 1 year allowed" },
+                  max: { value: 100, message: "Maximum 100 years allowed" },
                 })}
-                error={errors.term && ERROR_REQUIRED}
+                error={errors.term?.message}
               />
               <Input
                 decoratorLabel="%"
@@ -119,8 +133,12 @@ export default function Home() {
                 label="Interest Rate"
                 type="number"
                 step={0.01}
-                {...register("interestRate", { required: true })}
-                error={errors.interestRate && ERROR_REQUIRED}
+                {...register("interestRate", {
+                  required: ERROR_REQUIRED,
+                  min: { value: 0, message: "Minimum 0% allowed" },
+                  max: { value: 100, message: "Maximum 100% allowed" },
+                })}
+                error={errors.interestRate?.message}
               />
             </div>
 
@@ -136,7 +154,7 @@ export default function Home() {
                 label="Interest Only"
               />
             </RadioGroup>
-            <Button type="submit">
+            <Button type="submit" disabled={isSubmitting}>
               <Image
                 src="/images/icon-calculator.svg"
                 width={24}
