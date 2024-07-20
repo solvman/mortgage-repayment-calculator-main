@@ -1,6 +1,6 @@
 type ResultsProps = {
-  monthlyPayment: number;
-  totalRepayment: number;
+  monthlyPayment: string;
+  totalRepayment: string;
 };
 
 function Results({ monthlyPayment, totalRepayment }: ResultsProps) {
@@ -18,15 +18,13 @@ function Results({ monthlyPayment, totalRepayment }: ResultsProps) {
         <p className="text-preset-4 text-secondary-300">
           Your monthly repayments
         </p>
-        <p className="text-preset-1 text-primary font-bold">
-          $ {monthlyPayment}
-        </p>
+        <p className="text-preset-1 text-primary font-bold">{monthlyPayment}</p>
         <hr className="h-px bg-divider border-0 my-200" />
         <p className="text-preset-4 text-secondary-300">
           Total you&apos;ll repay over the term
         </p>
         <p className="text-preset-2 text-white font-bold mt-2">
-          ${totalRepayment}
+          {totalRepayment}
         </p>
       </div>
     </div>

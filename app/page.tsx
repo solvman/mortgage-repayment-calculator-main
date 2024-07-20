@@ -10,7 +10,9 @@ import RadioGroup from "@/components/RadioGroup";
 import Results from "@/components/Results";
 import Section from "@/components/Section";
 import Image from "next/image";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { calculateRepayments } from "@/utils";
 
 const ERROR_REQUIRED = "This field is required";
 
@@ -22,10 +24,13 @@ type FormData = {
 };
 
 export default function Home() {
+  const [result, setResult] = useState(false);
+  const [monthlyPayment, setMonthlyPayment] = useState("");
+  const [totalRepayment, setTotalRepayment] = useState("");
+
   const {
     register,
     reset,
-    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
@@ -38,8 +43,28 @@ export default function Home() {
   });
 
   function onSubmit(data: FormData) {
-    console.log(data);
+    const { amount, term, interestRate, repayment } = data;
+    const { monthlyPayment, totalRepayment } = calculateRepayments(
+      Number(amount),
+      Number(term),
+      Number(interestRate),
+      repayment
+    );
+
+    // US currency format
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+
+    setMonthlyPayment(currency.format(monthlyPayment));
+    setTotalRepayment(currency.format(totalRepayment));
+    setResult(true);
+  }
+
+  function onClear() {
     reset();
+    setResult(false);
   }
 
   return (
@@ -50,7 +75,7 @@ export default function Home() {
       <Card>
         {/* Calculator */}
         <Section className="bg-white">
-          <Header onReset={reset} />
+          <Header onClear={onClear} />
           <form
             className="flex flex-col gap-300"
             onSubmit={handleSubmit(onSubmit)}
@@ -58,7 +83,9 @@ export default function Home() {
             <Input
               decoratorLabel="$"
               label="Mortgage Amount"
-              {...register("amount", { required: true })}
+              {...register("amount", {
+                required: true,
+              })}
               error={errors.amount && ERROR_REQUIRED}
             />
             <div className="flex flex-col md:flex-row gap-6">
@@ -66,13 +93,16 @@ export default function Home() {
                 decoratorLabel="years"
                 decoratorPosition="right"
                 label="Mortgage Term"
-                {...register("term", { required: true })}
+                {...register("term", {
+                  required: true,
+                })}
                 error={errors.term && ERROR_REQUIRED}
               />
               <Input
                 decoratorLabel="%"
                 decoratorPosition="right"
                 label="Interest Rate"
+                step={0.01}
                 {...register("interestRate", { required: true })}
                 error={errors.interestRate && ERROR_REQUIRED}
               />
@@ -103,10 +133,13 @@ export default function Home() {
         </Section>
         {/* Results */}
         <Section className="bg-secondary-900 lg:rounded-bl-[80px]">
-          {true ? (
-            <NoResults />
+          {result ? (
+            <Results
+              monthlyPayment={monthlyPayment}
+              totalRepayment={totalRepayment}
+            />
           ) : (
-            <Results monthlyPayment={1000} totalRepayment={323000} />
+            <NoResults />
           )}
         </Section>
       </Card>
