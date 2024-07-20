@@ -24,8 +24,8 @@ const Input = forwardRef(function Input(
   return (
     <label className="flex flex-col gap-150 text-preset-4 text-secondary-700 md:flex-1">
       <p>{label}</p>
-      <div className="relative">
-        <div
+      <span className="relative">
+        <span
           className={cn(
             "group flex border border-secondary-500 rounded-sm overflow-hidden has-[:focus-visible]:border-primary transition cursor-pointer",
             {
@@ -53,13 +53,13 @@ const Input = forwardRef(function Input(
             ref={ref}
             {...rest}
           />
-        </div>
+        </span>
         {error && (
           <em className="absolute text-preset-5 not-italic left-0 -bottom-5 text-error">
             {error}
           </em>
         )}
-      </div>
+      </span>
     </label>
   );
 });
