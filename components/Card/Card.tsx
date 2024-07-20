@@ -9,7 +9,7 @@ function Card({ children, className, ...rest }: CardProps) {
   return (
     <article
       className={cn(
-        "bg-white max-w-[1008px] flex flex-col lg:flex-row overflow-hidden md:rounded-3xl",
+        "bg-white max-w-[1008px] flex flex-col lg:flex-row overflow-hidden md:rounded-3xl lg:shadow-sm",
         className
       )}
       {...rest}
