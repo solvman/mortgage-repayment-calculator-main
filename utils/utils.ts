@@ -26,3 +26,11 @@ export function calculateRepayments(
 
   return { monthlyPayment, totalRepayment };
 }
+
+const addCommas = (value: string) =>
+  value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const removeNonNumeric = (value: string) => value.replace(/[^0-9]/g, "");
+
+export const formatFromCurrency = (value: string) => value.replace(/,/g, "");
+export const formatToCurrency = (value: string) =>
+  addCommas(removeNonNumeric(value));

@@ -11,8 +11,12 @@ import Results from "@/components/Results";
 import Section from "@/components/Section";
 import Image from "next/image";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { calculateRepayments } from "@/utils";
+import { Controller, useForm } from "react-hook-form";
+import {
+  calculateRepayments,
+  formatFromCurrency,
+  formatToCurrency,
+} from "@/utils";
 
 const ERROR_REQUIRED = "This field is required";
 
@@ -32,6 +36,7 @@ export default function Home() {
     register,
     reset,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
@@ -45,7 +50,7 @@ export default function Home() {
   function onSubmit(data: FormData) {
     const { amount, term, interestRate, repayment } = data;
     const { monthlyPayment, totalRepayment } = calculateRepayments(
-      Number(amount),
+      Number(formatFromCurrency(amount as string)),
       Number(term),
       Number(interestRate),
       repayment
@@ -80,19 +85,29 @@ export default function Home() {
             className="flex flex-col gap-300"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <Input
-              decoratorLabel="$"
-              label="Mortgage Amount"
-              {...register("amount", {
-                required: true,
-              })}
-              error={errors.amount && ERROR_REQUIRED}
+            <Controller
+              name="amount"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <Input
+                  decoratorLabel="$"
+                  label="Mortgage Amount"
+                  type="text"
+                  value={value as string}
+                  onChange={(event) =>
+                    onChange(formatToCurrency(event.target.value))
+                  }
+                  error={errors.amount && ERROR_REQUIRED}
+                />
+              )}
             />
             <div className="flex flex-col md:flex-row gap-6">
               <Input
                 decoratorLabel="years"
                 decoratorPosition="right"
                 label="Mortgage Term"
+                type="number"
                 {...register("term", {
                   required: true,
                 })}
@@ -102,6 +117,7 @@ export default function Home() {
                 decoratorLabel="%"
                 decoratorPosition="right"
                 label="Interest Rate"
+                type="number"
                 step={0.01}
                 {...register("interestRate", { required: true })}
                 error={errors.interestRate && ERROR_REQUIRED}

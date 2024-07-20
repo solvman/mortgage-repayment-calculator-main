@@ -1,2 +1,7 @@
-import { cn, calculateRepayments } from "./utils";
-export { cn, calculateRepayments };
+import {
+  cn,
+  calculateRepayments,
+  formatFromCurrency,
+  formatToCurrency,
+} from "./utils";
+export { cn, calculateRepayments, formatFromCurrency, formatToCurrency };

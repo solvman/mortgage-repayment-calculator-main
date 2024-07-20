@@ -48,7 +48,6 @@ const Input = forwardRef(function Input(
             </span>
           )}
           <input
-            type="number"
             id={id}
             className="w-full h-12 text-preset-3 font-bold text-secondary-900 px-200 border-none focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             ref={ref}
