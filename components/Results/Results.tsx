@@ -5,7 +5,7 @@ type ResultsProps = {
 
 function Results({ monthlyPayment, totalRepayment }: ResultsProps) {
   return (
-    <div>
+    <div className="flex flex-col lg:h-full lg:justify-center">
       <h2 className="text-preset-2 font-bold text-white mb-200">
         Your results
       </h2>
