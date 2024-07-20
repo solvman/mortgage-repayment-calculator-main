@@ -118,8 +118,6 @@ export default function Home() {
                 decoratorPosition="right"
                 label="Mortgage Term"
                 type="number"
-                min={1}
-                max={100}
                 {...register("term", {
                   required: ERROR_REQUIRED,
                   min: { value: 1, message: "Minimum 1 year allowed" },
